@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import getToken from "../utils/token.js";
 import bcrypt from "bcryptjs"
 
+const isProduction = process.env.NODE_ENV === "production";
 
 export const signup = async (req, res) => {
 
@@ -32,8 +33,8 @@ export const signup = async (req, res) => {
         const token = await getToken(info);
          res.cookie("token", token, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax"
+           secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
         });
 
         const userData = {
@@ -84,8 +85,8 @@ export const login = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax"
+           secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
         });
 
         const userData = {
@@ -110,8 +111,8 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
     res.clearCookie("token", {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax"
+         secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
         });
     res.status(200).json({ message: "Logged out successfully" });
 };
