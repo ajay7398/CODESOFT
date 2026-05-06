@@ -13,7 +13,7 @@ import applicationRouter from "./routes/application.routes.js";
 
 app.use(express.json());
 app.use(cors({
-  origin: ["http://localhost:5174","https://jobtation.netlify.app" ],
+  origin: ["https://jobtation.netlify.app","http://localhost:5174" ],
   credentials: true
 }));
 
