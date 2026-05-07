@@ -15,6 +15,7 @@ import JobListingPage from "./pages/JobListingPage.jsx";
 import Footer from "./components/Footer.jsx";
 import ApplyJob from "./components/ApplyJob.jsx";
 import ApplicantsPage from "./components/ApplicantsPage.jsx";
+import EditJob from "./components/EditJob.jsx";
 function App() {
   const { user, loading } = useContext(AuthContext);
 
@@ -74,6 +75,10 @@ function App() {
       <Route path="/jobs" element={<JobListingPage/>}/>
       <Route path="/apply/:jobId" element={<ApplyJob />} />
       <Route path="/employer/jobs/:id/applicants" element={<ApplicantsPage />}
+/>
+<Route
+  path="/employer/jobs/edit/:id"
+  element={<EditJob />}
 />
     </Routes>
     {

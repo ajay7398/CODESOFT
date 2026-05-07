@@ -51,7 +51,7 @@ const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchJobs();
-    console.log(API)
+
   }, [search, location, type, page]);
 
   useEffect(() => {
