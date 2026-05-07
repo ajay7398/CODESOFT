@@ -3,13 +3,13 @@ import { AuthContext } from "../context/authContext";
 import axios from "axios";
 
 function CandidateDashboard() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser,API } = useContext(AuthContext);
 
   const [activeTab, setActiveTab] = useState("profile");
   const [applications, setApplications] = useState([]);
   const [resume, setResume] = useState(null);
 
-  const API = "http://localhost:5000";
+
 
   // 🔥 Fetch applied jobs
   useEffect(() => {
