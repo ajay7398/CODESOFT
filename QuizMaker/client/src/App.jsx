@@ -8,14 +8,17 @@ import QuizList from "./pages/QuizList";
 import TakeQuiz from "./pages/TakeQuiz";
 import Result from "./pages/Result";
 import PrivateRoute from "./routes/PrivateRoute";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 export default function App() {
+  const {user}=useContext(AuthContext);
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={user ? <Home /> : <Login />} />
         <Route path="/register" element={<Register />} />
 
         <Route

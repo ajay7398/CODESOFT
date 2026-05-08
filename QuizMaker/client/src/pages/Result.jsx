@@ -2,10 +2,10 @@ import { useContext } from "react";
 import { QuizContext } from "../context/QuizContext";
 import { Link } from "react-router-dom";
 import { FiCheck, FiX, FiList } from "react-icons/fi";
-import { MdQuiz, MdOutlineReplay } from "react-icons/md";
+import { MdQuiz } from "react-icons/md";
 import { HiArrowRight } from "react-icons/hi";
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function Result() {
   const { quiz, answers } = useContext(QuizContext);
@@ -24,25 +24,18 @@ export default function Result() {
   });
 
   const percentage = Math.round((correct / totalQuestions) * 100);
-  const skipped = totalQuestions - answers.filter(Boolean).length;
-
-
-  // Score ring
-  const radius = 54;
-  const circumference = 2 * Math.PI * radius;
-  const dash = (percentage / 100) * circumference;
 
   return (
     <div className="min-h-screen bg-slate-950 text-white px-4 py-10">
-
       <div className="max-w-2xl mx-auto relative z-10 space-y-6">
-
         {/* Header */}
         <div className="flex items-center gap-3 mb-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-lime-500 to-amber-500 flex items-center justify-center shadow-lg shadow-lime-500/30">
             <MdQuiz className="w-4 h-4 text-white" />
           </div>
-          <h1 className="text-lg font-bold text-white truncate">{quiz.title}</h1>
+          <h1 className="text-lg font-bold text-white truncate">
+            {quiz.title}
+          </h1>
         </div>
 
         {/* Score Card */}
@@ -51,16 +44,26 @@ export default function Result() {
 
           {/* Score Ring */}
 
-<div style={{ width: 200, height: 200 }} className="w-full flex items-center justify-center">
-  <CircularProgressbar value={percentage} text={`${percentage}%`} />
-</div>
+          <div className="w-full flex items-center justify-center">
+            <CircularProgressbar
+              styles={buildStyles({
+                pathColor: "#84cc16", 
+                textColor: "#ffff00", 
+                trailColor: "#1e293b", 
+                strokeLinecap: "round",
+              })}
+              className="w-30 h-30"
+              value={percentage}
+              text={`${percentage}%`}
+            />
+          </div>
           <p className="text-slate-400 text-sm">
-            You scored <span className="text-white font-semibold">{correct}</span> out of{" "}
-            <span className="text-white font-semibold">{totalQuestions}</span> questions
+            You scored{" "}
+            <span className="text-white font-semibold">{correct}</span> out of{" "}
+            <span className="text-white font-semibold">{totalQuestions}</span>{" "}
+            questions
           </p>
         </div>
-
-    
 
         {/* Answer Review */}
         <div className="bg-slate-900/80 backdrop-blur border border-white/10 rounded-2xl p-6">
@@ -81,19 +84,21 @@ export default function Result() {
                     isSkipped
                       ? "border-white/10 bg-slate-800/40"
                       : isCorrect
-                      ? "border-lime-500/30 bg-lime-500/5"
-                      : "border-rose-500/30 bg-rose-500/5"
+                        ? "border-lime-500/30 bg-lime-500/5"
+                        : "border-rose-500/30 bg-rose-500/5"
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     {/* Status icon */}
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                      isSkipped
-                        ? "bg-slate-700 text-slate-400"
-                        : isCorrect
-                        ? "bg-lime-500/20 text-lime-400"
-                        : "bg-rose-500/20 text-rose-400"
-                    }`}>
+                    <div
+                      className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                        isSkipped
+                          ? "bg-slate-700 text-slate-400"
+                          : isCorrect
+                            ? "bg-lime-500/20 text-lime-400"
+                            : "bg-rose-500/20 text-rose-400"
+                      }`}
+                    >
                       {isSkipped ? (
                         <span className="text-xs font-bold">—</span>
                       ) : isCorrect ? (
@@ -112,15 +117,21 @@ export default function Result() {
                       {!isSkipped && !isCorrect && (
                         <p className="text-xs text-rose-400 mb-1">
                           Your answer:{" "}
-                          <span className="font-semibold">{userAnswer?.selectedAnswer}</span>
+                          <span className="font-semibold">
+                            {userAnswer?.selectedAnswer}
+                          </span>
                         </p>
                       )}
 
-                      <p className={`text-xs font-semibold ${isCorrect ? "text-lime-400" : "text-lime-300"}`}>
+                      <p
+                        className={`text-xs font-semibold ${isCorrect ? "text-lime-400" : "text-lime-300"}`}
+                      >
                         {isSkipped ? (
                           <span className="text-slate-500">Skipped</span>
                         ) : (
-                          <>Correct: <span>{q.correctAnswer}</span></>
+                          <>
+                            Correct: <span>{q.correctAnswer}</span>
+                          </>
                         )}
                       </p>
                     </div>
@@ -132,13 +143,13 @@ export default function Result() {
         </div>
 
         {/* Action Button*/}
-          <Link
-            to="/quizzes"
-            className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-white/10 text-slate-300 hover:text-white font-semibold transition-all active:scale-95"
-          >
-            Browse Quizzes
-            <HiArrowRight className="w-4 h-4" />
-          </Link>
+        <Link
+          to="/quizzes"
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-white/10 text-slate-300 hover:text-white font-semibold transition-all active:scale-95"
+        >
+          Browse Quizzes
+          <HiArrowRight className="w-4 h-4" />
+        </Link>
       </div>
     </div>
   );

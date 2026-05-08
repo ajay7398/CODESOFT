@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { BsClipboardCheck } from "react-icons/bs";
@@ -7,6 +7,17 @@ import { HiMenu, HiX } from "react-icons/hi";
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
+const navigate=useNavigate();
+  const handleLogout = async() => {
+    try {
+      await logout();
+  setMenuOpen(false);
+  navigate("/")
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
   return (
     <nav className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10">
@@ -53,7 +64,7 @@ export default function Navbar() {
               </div>
 
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="text-sm px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-white/10 text-slate-300 hover:text-white transition-all duration-200"
               >
                 Logout
